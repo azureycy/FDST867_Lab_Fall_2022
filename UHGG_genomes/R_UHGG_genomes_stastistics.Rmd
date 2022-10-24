@@ -1,0 +1,213 @@
+---
+title: "R_UHGG_genomes_stastistics"
+output: html_document
+---
+
+```{r}
+## Set path to working directory
+setwd("/work/$your_group/$user_name/FDST867_lab_fall_2022/UHGG_genomes")
+```
+
+## Install R packages and load library
+```{r}
+install.packages("ggplot2")
+install.packages("reshape2")
+install.packages("dplyr")
+install.packages("ggpubr")
+install.packages("cowplot")
+library(ggplot2)
+library(reshape2)
+library(dplyr)
+library(scales)
+library(stringr)
+library(ggpubr)
+library(rstatix)
+```
+
+## Prepare data
+```{r}
+## Read data table from file
+data <- read.table(file = "Bacteroides_metadata.rep.selected.csv.cds_count", sep=',', header = FALSE)
+
+## Reformat data
+# Add column names
+colnames(data) <- c("Genomes","Species", "type", "length", "N50", "completeness", "country", "continent", "protein count")
+
+data
+```
+
+## Use bar plot to show the genome length, N50, completeness and protein count in 45 genomes.
+```{r}
+## Prepare for bar plot
+
+# Trim data frame
+numeric_data <- data[,c(2,3,4,5,6,9)]
+
+# Convert wide data frame to long.
+data_new <- melt(numeric_data, id.vars = c("Species", "type"))
+
+# Add comma for large numbers
+format(numeric_data, big.mark = ",", scientific = FALSE)
+
+# Set scientific notation
+options(scipen=10)
+
+# Assign different colors to "Isolate" and "MAG" 
+color_group <- ifelse(data_new$type == "MAG", "red", "black")
+
+## ggplot - Bar plot
+bar_plot <- ggplot(data=data_new,aes(x=value, y=Species, fill=variable))+
+  geom_bar(width = 1, stat = "identity",colour="black")+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        legend.position="none",
+        axis.text.x = element_text(color="black", size=18, angle = 90, vjust = 0.5, hjust=1),
+        axis.text.y = element_text(size=16, face = "italic", color=color_group),
+        axis.title.x = element_text(size=24, face = "bold"),
+        axis.title.y = element_text(size=24, face = "bold"),
+        strip.text.x = element_text(size = 18, face = "bold"))+
+  scale_x_continuous(name=" ", labels = comma)+
+  facet_wrap(facets = vars(variable), scales = "free_x", ncol = 4)+
+  scale_fill_brewer(palette="Set3")
+
+## Save plot
+ggsave(bar_plot, filename = "UHGG_genomes_visualization/Bacteroides_45genomes_bar_plot.pdf",width = 14, height = 18, units = "in")
+
+```
+
+## Use pie chart to show the precentages for genome types and geographic dictribution.
+```{r}
+# Trim data frame
+information_data <- data[,c(1,3,7,8)]
+
+## Pie chart for "Genome Type"
+# Count the variable occurrence and write to new data frame
+type_data <-information_data %>%
+  group_by(type) %>% 
+  summarise(Count = n())
+
+# Plot for pie chart
+type_plot <- ggplot(type_data, aes(x="", y=Count, fill=type))+
+  geom_bar(width = 1, stat = "identity",colour="black")+
+  coord_polar("y", start=0)+
+  geom_text(aes(label = paste0(round(Count/sum(Count)*100), "%")), position = position_stack(vjust = 0.5), size=7)+
+  labs(x = NULL, y = NULL, fill= 'Genome Type')+
+  theme_classic() + 
+  theme(legend.text = element_text(colour="black", size=22),
+        legend.title = element_text(colour="black", size=24),
+        axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank())+
+  scale_fill_brewer(palette="Set3")
+
+## Pie chart for "country"
+country_data <-information_data %>%
+  group_by(country) %>% 
+  summarise(Count = n())
+
+#install.packages("ggrepel")
+#library(ggrepel)
+
+country_data <- country_data %>% 
+  mutate(pct = Count / sum(Count))
+
+country_plot <- ggplot(country_data, aes(x="", y=reorder(pct,pct), fill=reorder(country,-Count)))+
+  geom_bar(width = 1, stat = "identity",colour="black")+
+  coord_polar("y", start=0)+
+  geom_text(aes(x=1.7, label = scales::percent(pct, accuracy = .1)), position = position_stack(vjust = .5), size=5)+
+  labs(x = NULL, y = NULL, fill= 'Country')+
+  theme_classic() + 
+  theme(legend.text = element_text(colour="black", size=22),
+        legend.title = element_text(colour="black", size=24),
+        axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank())+
+  scale_fill_brewer(palette="Set3")
+
+country_plot
+
+## Pie chart for "continent"
+continent_data <-information_data %>%
+  group_by(continent) %>% 
+  summarise(Count = n())
+
+continent_plot <- ggplot(continent_data, aes(x="", y=reorder(Count,Count), fill=reorder(continent,-Count)))+
+  geom_bar(width = 1, stat = "identity",colour="black")+
+  coord_polar("y", start=0)+
+  geom_text(aes(label = paste0(round(Count/sum(Count)*100), "%")), position = position_stack(vjust = 0.5), size=7)+
+  labs(x = NULL, y = NULL, fill= 'Continent')+
+  theme_classic() + 
+  theme(legend.text = element_text(colour="black", size=22),
+        legend.title = element_text(colour="black", size=24),
+        axis.line = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank())+
+  scale_fill_brewer(palette="Set3")
+
+
+# Combine multiple plots to one plot --------------------------------------
+combined_plot <- ggarrange(type_plot, country_plot, continent_plot,
+                           nrow = 2, ncol=2, heights = c(1, 1, 1))
+
+ggsave(combined_plot, filename = "UHGG_genomes_visualization/Bacteroides_45genomes_pie_chart.pdf",width = 14, height = 10, units = "in")
+
+```
+
+## Use box plot to compare the genome length by genome type group (Isolate and MAG).
+```{r}
+# calcculate mean and standard deviation.
+summ_length <- numeric_data %>% 
+  group_by(type) %>% 
+  summarize(mean = mean(length), sd = sd(length))
+
+# box plot
+box_plot_by_types <- ggplot(numeric_data, aes(x=type, y=length/1000000))+
+  geom_boxplot(width=0.5, aes(fill=type))+
+  geom_point(position=position_jitter(h=0.15,w=0.15))+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        legend.position="none",
+        axis.text.x = element_text(size=22, color="black", face = "bold"),
+        axis.text.y = element_text(size=22, color="black", face = "bold"),
+        axis.title.x = element_text(size=24, color="black", face = "bold", ),
+        axis.title.y = element_text(size=24, color="black", face = "bold"))+
+  scale_x_discrete(name="Genome Types", labels=c("MAG" = "MAG (n=17)", "Isolate" = "Isolate (n=28)"))+
+  scale_y_continuous(name="Genome size (Mb)", limits=c(0,9,1))+
+  stat_summary(fun= mean, geom = "point", color = "white", 
+               shape=18, size=4,show_guide = FALSE) + 
+  geom_text(data = summ_length, aes(x = type, y = 1.5, label = paste("Mean: ", round(mean/1000000, 2))), color="black", size = 9)+
+  geom_text(data = summ_length, aes(x = type, y = 0.5, label =paste("SD: ", round(sd/1000000, 2))), color="black", size =9)
+
+ggsave(box_plot_by_types, filename = "UHGG_genomes_visualization/Bacteroides_compare_length_boxplot.pdf",width = 8, height = 6, units = "in")
+
+```
+
+## Use violin plot to compare the protein count by genome type group (Isolate and MAG).
+```{r}
+# Wilcoxon-test
+stat.test_protein_count <- numeric_data %>% 
+  wilcox_test(`protein count`~type) %>%
+  add_significance()
+
+violin_plot_for_protein_count <- ggplot(numeric_data, aes(x=type, y=`protein count`, fill=type))+
+  geom_violin(trim=FALSE, adjust = 0.5)+
+  geom_boxplot(width=0.1, fill="white")+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+        panel.background = element_blank(), axis.line = element_line(colour = "black"),
+        legend.position="none",
+        axis.text.x = element_text(size=22, color="black", face = "bold"),
+        axis.text.y = element_text(size=22, color="black", face = "bold"),
+        axis.title.x = element_text(size=24, face = "bold"),
+        axis.title.y = element_text(size=24, face = "bold"),
+        plot.subtitle=element_text(hjust = 0.5))+
+  scale_x_discrete(name="Genome Types", labels=c("MAG" = "MAG (n=17)", "Isolate" = "Isolate (n=28)"))+
+  scale_y_continuous(name="Protein Count")+
+  stat_summary(fun.y= mean, geom = "point", color = "white", 
+               shape=23, size=4,show_guide = FALSE) + 
+  # add p value
+  stat_compare_means(label.x = 1.3, label.y = 6000, size =6)
+
+ggsave(violin_plot_for_protein_count, filename = "UHGG_genomes_visualization/Bacteroides_compare_protein_count_violin_plot.pdf",width = 8, height = 6, units = "in")
+
+```
+
