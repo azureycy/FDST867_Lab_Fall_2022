@@ -1,0 +1,114 @@
+---
+title: "CAZyme_family_distribution"
+output: html_document
+---
+
+# set the working directory
+```{r}
+setwd("/work/yinlab/yuchen/FDST867_lab_fall_2022/cazyme_cgc")
+```
+
+
+```{r}
+install.packages("tidyr")
+install.packages("dplyr")
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+```
+
+# read the table of the CAZyme families in each genome
+```{r}
+cazy_family_file = read.csv("spp_cazyme_family.csv")
+cazy_family_file
+```
+
+### CAZyme class(GH/GT/CE/PL/CBM/AA) distribution
+```{r}
+# count number of CAZyme domains in each class
+num_cazy_class = cazy_family_file %>% group_by(species, CAZyme_class) %>% summarise(num_each_class = n())
+num_cazy_class
+```
+
+# stacked bar of CAZyme class
+```{r}
+# make percent stacked bar for CAZyme class
+cazy_class_stackbar = ggplot(num_cazy_class, aes(fill = CAZyme_class, y = num_each_class, x = species)) + 
+  geom_bar(position="stack", stat="identity", width = 0.6, color = "white") +
+  ylab("# of CAZymes") + xlab("") +
+  ggtitle("The proportion of CAZyme classes in genome") +
+  theme(axis.text.x = element_text(angle = 65, size = 10, hjust = 1, vjust = 1, color = "black"),
+        axis.text.y = element_text(color = "black", size = 11),
+        axis.title.y = element_text(size = 13, margin = margin(t = 0, r = 15, b = 0, l = 0)),
+        plot.title = element_text(size = 17, vjust = 2.5),
+        plot.margin = unit(c(0.5,0.5,0,0.5), "cm"),
+        legend.title = element_text(size = 11),
+        legend.text = element_text(size = 10),
+        panel.background = element_blank(), axis.line = element_line(colour = "black")) +
+  scale_y_continuous(expand = c(0, 0))
+
+# save the plot to pdf file
+ggsave("cazy_class_stackbar.pdf", cazy_class_stackbar, width = 9, height = 6)
+```
+
+### CAZyme family distribution by spp.
+
+## parse annotation columns and rows for heatmap
+```{r}
+# annotation cols with cazy_class 
+caz_family_no_duplication = filter(cazy_family_file,!duplicated(cazy_family_file$CAZyme_family))
+annotation_col_with_cazy_class = subset(caz_family_no_duplication, select = c(CAZyme_class))
+rownames(annotation_col_with_cazy_class) <- caz_family_no_duplication[,c("CAZyme_family")]
+annotation_col_with_cazy_class
+```
+
+## parse CAZyme family data
+```{r}
+# count the number of each CAZyme family
+num_family_by_spp = cazy_family_file %>% group_by(species, CAZyme_family) %>% summarise(num_each_family = n())
+
+# select CAZyme families that present in > 5 genomes
+num_family_by_spp_filt = num_family_by_spp %>% filter(num_each_family > 5)
+```
+
+```{r}
+# make a matrix to show the distribution of CAZymes among genomes
+num_family_by_spp_data = spread(num_family_by_spp_filt, CAZyme_family, num_each_family)  # spread one column to mutiple columns
+num_family_by_spp_matrix <- data.matrix(num_family_by_spp_data[,2:ncol(num_family_by_spp_data)])
+dimnames(num_family_by_spp_matrix) <- num_family_by_spp_data[,1]
+colnames(num_family_by_spp_matrix) <- colnames(num_family_by_spp_data[,2:ncol(num_family_by_spp_data)])
+#num_family_by_spp_matrix[!is.na(num_family_by_spp_matrix)] <- 1
+num_family_by_spp_matrix[is.na(num_family_by_spp_matrix)] <- 0
+num_family_by_spp_matrix
+```
+
+## make CAZyme family distribution heatmap
+```{r}
+install.packages("pheatmap")
+library(pheatmap)
+```
+```{r}
+hm = pheatmap(num_family_by_spp_matrix, cluster_cols = T, cluster_rows = T,
+         annotation_col = annotation_col_with_cazy_class,
+         fontsize_col = 7.5, fontsize_row = 9,
+         cellwidth = 8, cellheight =9, 
+         treeheight_row = 12, treeheight_col = 25, 
+         #legend_breaks = c(0,1),
+         legend = T,
+         border_color = "grey",
+         main = "CAZyme family distribution among species representatives")
+```
+
+## save the heatmap plot as pdf file
+```{r}
+save_pheatmap_pdf <- function(x, filename, width=16, height=8) {
+   stopifnot(!missing(x))
+   stopifnot(!missing(filename))
+   pdf(filename, width=width, height=height)
+   grid::grid.newpage()
+   grid::grid.draw(x$gtable)
+   dev.off()
+}
+save_pheatmap_pdf(hm, "cazy_distr_hm.pdf")
+```
+

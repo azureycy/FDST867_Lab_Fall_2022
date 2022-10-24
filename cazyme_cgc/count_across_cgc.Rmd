@@ -1,0 +1,50 @@
+---
+title: "count_across_cgc"
+output: html_document
+---
+
+#read the count table of CAZymes and CGCs in each genome
+```{r}
+count_each_genome = read.csv("spp_number_count_and_percentage.csv")
+count_each_genome
+```
+
+#calculate the percentage of each type of genes in CGCs
+```{r}
+cgc_stat = count_each_genome %>% gather(key = "sig_type", value = "sig_count", 
+                                        c(num_cazyme_in_cgc, num_TC_in_cgc, num_TF_in_cgc, num_STP_in_cgc, num_null_in_cgc))
+cgc_stat
+
+prop_sig_gene_table = cgc_stat %>% mutate(prop_sig_gene = sig_count/num_genes_in_cgc)
+
+prop_sig_gene_table$sig_type[prop_sig_gene_table$sig_type=="num_cazyme_in_cgc"]<-"CAZyme"
+prop_sig_gene_table$sig_type[prop_sig_gene_table$sig_type=="num_TC_in_cgc"]<-"TC"
+prop_sig_gene_table$sig_type[prop_sig_gene_table$sig_type=="num_TF_in_cgc"]<-"TF"
+prop_sig_gene_table$sig_type[prop_sig_gene_table$sig_type=="num_STP_in_cgc"]<-"STP"
+prop_sig_gene_table$sig_type[prop_sig_gene_table$sig_type=="num_null_in_cgc"]<-"null"
+
+prop_sig_gene_table
+```
+
+```{r}
+# make percent stacked bar for genes in CGCs
+prop_sig_cgc = ggplot(prop_sig_gene_table, aes(fill = sig_type, y = prop_sig_gene, x = species)) + 
+  geom_bar(position="fill", stat="identity", color = "white") +
+  ylab("percentage of genes") + xlab("") +
+  ggtitle("The proportion of genes in CGC") +
+  theme(axis.text.x = element_text(angle = 65, size = 10, hjust = 1, vjust = 1, color = "black"),
+        axis.text.y = element_text(color = "black", size = 11),
+        axis.title.y = element_text(size = 13, margin = margin(t = 0, r = 15, b = 0, l = 0)),
+        plot.title = element_text(size = 17, vjust = 2.5),
+        plot.margin = unit(c(0.5,0.5,0,0.5), "cm"),
+        legend.title = element_text(size = 11),
+        legend.text = element_text(size = 10),
+        panel.background = element_blank(), axis.line = element_line(colour = "black")) +
+  scale_y_continuous(expand = c(0, 0)) +
+  scale_fill_brewer(palette = "Set3")
+
+
+# save the plot to pdf file
+ggsave("prop_sig_cgc_stackbar.pdf", prop_sig_cgc, width = 9, height = 6)
+```
+
