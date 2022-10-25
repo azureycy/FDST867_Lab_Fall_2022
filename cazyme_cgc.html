@@ -14683,20 +14683,21 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="c1"># install dbCAN  (~6min)</span>
-<span class="c1">#ml anaconda</span>
-<span class="c1">#conda create -n run_dbcan python=3.8 diamond hmmer prodigal -c conda-forge -c bioconda</span>
-<span class="c1">#conda activate run_dbcan</span>
-<span class="c1">#pip install dbcan==3.0.5</span>
-<span class="c1">#test -d db || mkdir db</span>
-<span class="c1">#cd db \</span>
-<span class="c1">#    &amp;&amp; wget http://bcb.unl.edu/dbCAN2/download/CAZyDB.09242021.fa &amp;&amp; diamond makedb --in CAZyDB.09242021.fa -d CAZy \</span>
-<span class="c1">#    &amp;&amp; wget https://bcb.unl.edu/dbCAN2/download/Databases/V10/dbCAN-HMMdb-V10.txt &amp;&amp; mv dbCAN-HMMdb-V10.txt dbCAN.txt &amp;&amp; hmmpress dbCAN.txt \</span>
-<span class="c1">#    &amp;&amp; wget http://bcb.unl.edu/dbCAN2/download/Databases/tcdb.fa &amp;&amp; diamond makedb --in tcdb.fa -d tcdb \</span>
-<span class="c1">#    &amp;&amp; wget http://bcb.unl.edu/dbCAN2/download/Databases/tf-1.hmm &amp;&amp; hmmpress tf-1.hmm \</span>
-<span class="c1">#    &amp;&amp; wget http://bcb.unl.edu/dbCAN2/download/Databases/tf-2.hmm &amp;&amp; hmmpress tf-2.hmm \</span>
-<span class="c1">#    &amp;&amp; wget http://bcb.unl.edu/dbCAN2/download/Databases/stp.hmm &amp;&amp; hmmpress stp.hmm \</span>
-<span class="c1">#    &amp;&amp; cd ../</span>
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># install dbCAN  (~8 min)</span>
+ml anaconda
+conda create -n run_dbcan <span class="nv">python</span><span class="o">=</span><span class="m">3</span>.8 dbcan -c conda-forge -c bioconda
+conda activate run_dbcan
+<span class="nb">test</span> -d db <span class="o">||</span> mkdir db
+
+<span class="c1"># copy and paste all command lines below together</span>
+<span class="nb">cd</span> db <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> wget http://bcb.unl.edu/dbCAN2/download/CAZyDB.09242021.fa <span class="o">&amp;&amp;</span> diamond makedb --in CAZyDB.09242021.fa -d CAZy <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> wget https://bcb.unl.edu/dbCAN2/download/Databases/V10/dbCAN-HMMdb-V10.txt <span class="o">&amp;&amp;</span> mv dbCAN-HMMdb-V10.txt dbCAN.txt <span class="o">&amp;&amp;</span> hmmpress dbCAN.txt <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> wget http://bcb.unl.edu/dbCAN2/download/Databases/tcdb.fa <span class="o">&amp;&amp;</span> diamond makedb --in tcdb.fa -d tcdb <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> wget http://bcb.unl.edu/dbCAN2/download/Databases/tf-1.hmm <span class="o">&amp;&amp;</span> hmmpress tf-1.hmm <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> wget http://bcb.unl.edu/dbCAN2/download/Databases/tf-2.hmm <span class="o">&amp;&amp;</span> hmmpress tf-2.hmm <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> wget http://bcb.unl.edu/dbCAN2/download/Databases/stp.hmm <span class="o">&amp;&amp;</span> hmmpress stp.hmm <span class="se">\</span>
+    <span class="o">&amp;&amp;</span> <span class="nb">cd</span> ../
 </pre></div>
 
      </div>
@@ -14852,7 +14853,7 @@ done
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># submit slurm job to HCC  (~45 min)</span>
-<span class="c1">#sbatch run_dbcan.sh</span>
+sbatch run_dbcan.sh
 </pre></div>
 
      </div>

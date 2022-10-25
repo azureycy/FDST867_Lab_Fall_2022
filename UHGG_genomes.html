@@ -14672,7 +14672,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># download the UHGG genome metadata file  (~3min)</span>
-<span class="c1">#wget http://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/human-gut/v2.0/genomes-all_metadata.tsv</span>
+wget http://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/human-gut/v2.0/genomes-all_metadata.tsv
 </pre></div>
 
      </div>
@@ -14743,7 +14743,7 @@ dos2unix Bacteroides_metadata.tsv
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Select representative genome ids.</span>
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Select representative genome ids. The 14th column is representative genome id of the spp.</span>
 less genomes-all_metadata.tsv <span class="p">|</span> grep <span class="s2">"s__Bacteroides"</span> <span class="p">|</span> cut -f <span class="m">14</span> <span class="p">|</span> sort <span class="p">|</span> uniq &gt; spe_list.txt
 </pre></div>
 
@@ -14760,7 +14760,7 @@ less genomes-all_metadata.tsv <span class="p">|</span> grep <span class="s2">"s_
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Select representative genomes from file.</span>
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Extract metadata infor of the selected representative genomes based on the id list.</span>
 python extract_info.py Bacteroides_metadata.tsv spe_list.txt
 </pre></div>
 
@@ -14777,7 +14777,7 @@ python extract_info.py Bacteroides_metadata.tsv spe_list.txt
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="c1"># View representative speices</span>
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># View the first two lines of selected representative genome metadata</span>
 head -n <span class="m">2</span> Bacteroides_metadata.rep.tsv
 </pre></div>
 
@@ -14816,7 +14816,7 @@ MGYG000000029	Isolate	4415875	50	139654	42.18	93.87	0	94.96	99.67	99.56	20	GUT_G
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="c1"># View selected metadata infromation for representative speices</span>
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># View the first five lines of selected metadata info for representative genomes</span>
 head -n <span class="m">5</span> Bacteroides_metadata.rep.selected.csv
 </pre></div>
 
@@ -14869,7 +14869,7 @@ MGYG000000098,Bacteroides bouchesdurhonensis,Isolate,4868436,125364,99.26,Canada
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Generate download list</span>
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Generate download_faa.txt and download_gff.txt, containing the links for downloading sequence fasta and gff files.</span>
 bash download_link_generate.sh spe_list.txt
 </pre></div>
 
@@ -14887,14 +14887,14 @@ bash download_link_generate.sh spe_list.txt
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Create new directory and download faa and gff files  (This will take ~15 min)</span>
-<span class="c1">#rm -r ../45_origin_faa_gff</span>
-<span class="c1">#mkdir -p ../45_origin_faa_gff</span>
-<span class="c1">#bash download.sh download_gff.txt</span>
-<span class="c1">#bash download.sh download_faa.txt</span>
-<span class="c1">#mv *gff ../45_origin_faa_gff</span>
-<span class="c1">#mv *faa ../45_origin_faa_gff</span>
-<span class="c1">#chmod +x ../45_origin_faa_gff/*gff</span>
-<span class="c1">#chmod +x ../45_origin_faa_gff/*faa</span>
+rm -r ../45_origin_faa_gff
+mkdir -p ../45_origin_faa_gff
+bash download.sh download_gff.txt
+bash download.sh download_faa.txt
+mv *gff ../45_origin_faa_gff
+mv *faa ../45_origin_faa_gff
+chmod +x ../45_origin_faa_gff/*gff
+chmod +x ../45_origin_faa_gff/*faa
 </pre></div>
 
      </div>
@@ -14921,7 +14921,7 @@ bash download_link_generate.sh spe_list.txt
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Add protein count to metadata file</span>
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Count CDS and add the counts to metadata file</span>
 bash cds_count.sh Bacteroides_metadata.rep.selected.csv
 </pre></div>
 
@@ -15013,7 +15013,7 @@ cat Bacteroides_metadata.rep.tsv <span class="p">|</span> awk <span class="s1">'
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Calculate average length</span>
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Calculate the average genome length of all selected 45 rep genomes</span>
 cat Bacteroides_metadata.rep.tsv <span class="p">|</span> awk <span class="s1">'{ total += $3; count++ } END { print total/count }'</span>
 </pre></div>
 
@@ -15145,7 +15145,7 @@ cat Bacteroides_metadata.rep.selected.csv <span class="p">|</span> cut -d <span 
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Look at the top ten protein counts</span>
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Look at the top ten CDS counts</span>
 cat Bacteroides_metadata.rep.selected.csv.cds_count <span class="p">|</span> cut -d <span class="s1">','</span> -f <span class="m">9</span> <span class="p">|</span> sort -rn <span class="p">|</span> head
 </pre></div>
 
