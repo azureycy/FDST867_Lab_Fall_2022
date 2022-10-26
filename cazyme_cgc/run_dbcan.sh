@@ -16,9 +16,9 @@ conda activate run_dbcan
 # create dbcan output folder
 mkdir dbcan_out
 
-# run dbCAN for the 45 genomes
+# run dbCAN for the 44 genomes
 
-for i in ../45_origin_faa_gff/*faa;
+for i in ../44_origin_faa_gff/*faa;
 do s=${i##*/};
 run_dbcan $i protein -c ${i%.*}.gff --out_dir dbcan_out/${s%.*} --db_dir db;
 done

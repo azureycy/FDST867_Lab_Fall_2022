@@ -6,6 +6,7 @@ output: html_document
 ```{r}
 ## Set path to working directory
 setwd("/work/$your_group/$user_name/FDST867_lab_fall_2022/UHGG_genomes")
+#setwd("/work/yinlab/yuchen/FDST867_lab_fall_2022/UHGG_genomes")
 ```
 
 ## Install R packages and load library
@@ -29,14 +30,13 @@ library(rstatix)
 ## Read data table from file
 data <- read.table(file = "Bacteroides_metadata.rep.selected.csv.cds_count", sep=',', header = FALSE)
 
-## Reformat data
 # Add column names
 colnames(data) <- c("Genomes","Species", "type", "length", "N50", "completeness", "country", "continent", "protein count")
 
 data
 ```
 
-## Use bar plot to show the genome length, N50, completeness and protein count in 45 genomes.
+## Use bar plot to show the genome length, N50, completeness and protein count in 44 genomes.
 ```{r}
 ## Prepare for bar plot
 
@@ -71,7 +71,7 @@ bar_plot <- ggplot(data=data_new,aes(x=value, y=Species, fill=variable))+
   scale_fill_brewer(palette="Set3")
 
 ## Save plot
-ggsave(bar_plot, filename = "UHGG_genomes_visualization/Bacteroides_45genomes_bar_plot.pdf",width = 14, height = 18, units = "in")
+ggsave(bar_plot, filename = "UHGG_genomes_visualization/Bacteroides_44genomes_bar_plot.pdf",width = 14, height = 18, units = "in")
 
 ```
 
@@ -104,9 +104,6 @@ type_plot <- ggplot(type_data, aes(x="", y=Count, fill=type))+
 country_data <-information_data %>%
   group_by(country) %>% 
   summarise(Count = n())
-
-#install.packages("ggrepel")
-#library(ggrepel)
 
 country_data <- country_data %>% 
   mutate(pct = Count / sum(Count))
@@ -148,7 +145,7 @@ continent_plot <- ggplot(continent_data, aes(x="", y=reorder(Count,Count), fill=
 # Combine multiple plots to one plot --------------------------------------
 combined_plot <- ggarrange(type_plot, country_plot, continent_plot, nrow = 2, ncol=2)
 
-ggsave(combined_plot, filename = "UHGG_genomes_visualization/Bacteroides_45genomes_pie_chart.pdf",width = 14, height = 10, units = "in")
+ggsave(combined_plot, filename = "UHGG_genomes_visualization/Bacteroides_44genomes_pie_chart.pdf",width = 14, height = 10, units = "in")
 
 ```
 
@@ -170,7 +167,7 @@ box_plot_by_types <- ggplot(numeric_data, aes(x=type, y=length/1000000))+
         axis.text.y = element_text(size=22, color="black", face = "bold"),
         axis.title.x = element_text(size=24, color="black", face = "bold", ),
         axis.title.y = element_text(size=24, color="black", face = "bold"))+
-  scale_x_discrete(name="Genome Types", labels=c("MAG" = "MAG (n=17)", "Isolate" = "Isolate (n=28)"))+
+  scale_x_discrete(name="Genome Types", labels=c("MAG" = "MAG (n=17)", "Isolate" = "Isolate (n=27)"))+
   scale_y_continuous(name="Genome size (Mb)", limits=c(0,9,1))+
   stat_summary(fun= mean, geom = "point", color = "white", 
                shape=18, size=4) + 
@@ -199,7 +196,7 @@ violin_plot_for_protein_count <- ggplot(numeric_data, aes(x=type, y=`protein cou
         axis.title.x = element_text(size=24, face = "bold"),
         axis.title.y = element_text(size=24, face = "bold"),
         plot.subtitle=element_text(hjust = 0.5))+
-  scale_x_discrete(name="Genome Types", labels=c("MAG" = "MAG (n=17)", "Isolate" = "Isolate (n=28)"))+
+  scale_x_discrete(name="Genome Types", labels=c("MAG" = "MAG (n=17)", "Isolate" = "Isolate (n=27)"))+
   scale_y_continuous(name="Protein Count")+
   stat_summary(fun.y= mean, geom = "point", color = "white", 
                shape=23, size=4) + 

@@ -14613,7 +14613,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># change working directory for CAZyme and CGC part</span>
@@ -14630,7 +14630,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># current working directory</span>
@@ -14713,7 +14713,8 @@ conda activate run_dbcan
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="c1"># take a look at contents in the dbCAN db/ directory</span>
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># class demo for saving time</span>
+<span class="c1">#cp -r /work/yinlab/yuchen/FDST867_lab_fall_2022_backup/cazyme_cgc/db $WORK/FDST867_lab_fall_2022/cazyme_cgc</span>
 </pre></div>
 
      </div>
@@ -14729,7 +14730,8 @@ conda activate run_dbcan
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span>ll db
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># take a look at contents in the db/ directory</span>
+ll db
 </pre></div>
 
      </div>
@@ -14787,7 +14789,7 @@ conda activate run_dbcan
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># take a look at scirpt for running dbcan </span>
@@ -14829,9 +14831,9 @@ conda activate run_dbcan
 # create dbcan output folder
 mkdir dbcan_out
 
-# run dbCAN for the 45 genomes
+# run dbCAN for the 44 genomes
 
-for i in ../45_origin_faa_gff/*faa;
+for i in ../44_origin_faa_gff/*faa;
 do s=${i##*/};
 run_dbcan $i protein -c ${i%.*}.gff --out_dir dbcan_out/${s%.*} --db_dir db;
 done
@@ -14861,15 +14863,32 @@ sbatch run_dbcan.sh
 </div>
 </div>
 
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># class demo for saving time</span>
+<span class="c1">#cp -r /work/yinlab/yuchen/FDST867_lab_fall_2022_backup/cazyme_cgc/dbcan_out $WORK/FDST867_lab_fall_2022/cazyme_cgc</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="c1"># The output dbcan_out/ directory should already be in your current folder</span>
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># The output dbcan_out/ directory should be in your current folder</span>
 ll
 </pre></div>
 
@@ -14891,12 +14910,12 @@ ll
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>total 215
--rw-r--r--  1 yuchen yinlab  3967 Oct 23 21:21 CAZyme_family_distribution.Rmd
--rw-r--r--  1 yuchen yinlab  2069 Oct 23 21:21 count_across_cgc.Rmd
+-rw-r--r--  1 yuchen yinlab  3983 Oct 23 23:50 CAZyme_family_distribution.Rmd
+-rw-r--r--  1 yuchen yinlab  2071 Oct 23 23:51 count_across_cgc.Rmd
 drwxr-xr-x  2 yuchen yinlab 33280 Oct 23 21:21 db
-drwxr-xr-x 47 yuchen yinlab 41472 Oct 23 21:21 dbcan_out
+drwxr-xr-x 47 yuchen yinlab 41472 Oct 23 23:08 dbcan_out
 -rw-r--r--  1 yuchen yinlab  3476 Oct 23 21:21 parse_cazyme_family.py
--rw-r--r--  1 yuchen yinlab   564 Oct 23 21:21 run_dbcan.sh
+-rw-r--r--  1 yuchen yinlab   564 Oct 26 13:51 run_dbcan.sh
 </pre>
 </div>
 </div>
@@ -14910,7 +14929,7 @@ drwxr-xr-x 47 yuchen yinlab 41472 Oct 23 21:21 dbcan_out
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># take a look at dbcan_out/ directory</span>
@@ -14935,15 +14954,15 @@ ll dbcan_out <span class="p">|</span> head
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>total 1463
-drwxr-xr-x 3 yuchen yinlab 33280 Oct 23 21:21 MGYG000000013
-drwxr-xr-x 3 yuchen yinlab 33280 Oct 23 21:21 MGYG000000029
-drwxr-xr-x 3 yuchen yinlab 33280 Oct 23 21:21 MGYG000000054
-drwxr-xr-x 3 yuchen yinlab 33280 Oct 23 21:21 MGYG000000057
-drwxr-xr-x 3 yuchen yinlab 33280 Oct 23 21:21 MGYG000000098
-drwxr-xr-x 3 yuchen yinlab 33280 Oct 23 21:21 MGYG000000105
-drwxr-xr-x 3 yuchen yinlab 33280 Oct 23 21:21 MGYG000000196
-drwxr-xr-x 3 yuchen yinlab 33280 Oct 23 21:21 MGYG000000211
-drwxr-xr-x 3 yuchen yinlab 33280 Oct 23 21:21 MGYG000000224
+drwxr-xr-x 2 yuchen yinlab 33280 Oct 23 23:14 MGYG000000013
+drwxr-xr-x 2 yuchen yinlab 33280 Oct 23 23:14 MGYG000000029
+drwxr-xr-x 2 yuchen yinlab 33280 Oct 23 23:14 MGYG000000054
+drwxr-xr-x 2 yuchen yinlab 33280 Oct 23 23:14 MGYG000000057
+drwxr-xr-x 2 yuchen yinlab 33280 Oct 23 23:14 MGYG000000098
+drwxr-xr-x 2 yuchen yinlab 33280 Oct 23 23:14 MGYG000000105
+drwxr-xr-x 2 yuchen yinlab 33280 Oct 23 23:14 MGYG000000196
+drwxr-xr-x 2 yuchen yinlab 33280 Oct 23 23:14 MGYG000000211
+drwxr-xr-x 2 yuchen yinlab 33280 Oct 23 23:14 MGYG000000224
 </pre>
 </div>
 </div>
@@ -14957,7 +14976,7 @@ drwxr-xr-x 3 yuchen yinlab 33280 Oct 23 21:21 MGYG000000224
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># take a look at dbCAN output of one genome</span>
@@ -15018,7 +15037,7 @@ ll dbcan_out/MGYG000000013/
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># count the number of genes in each genome  (copy and paste all command lines below together)</span>
@@ -15037,7 +15056,7 @@ ll dbcan_out/MGYG000000013/
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># take a look at the first ten lines of the file</span>
@@ -15084,7 +15103,7 @@ MGYG000002621,2884
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1">#  count the number of CAZymes in each genome  (copy and paste all command lines below together)</span>
@@ -15105,7 +15124,7 @@ MGYG000002621,2884
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># take a look at the first ten lines of the file</span>
@@ -15152,7 +15171,7 @@ MGYG000002621,231
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># num_cgc, num_gene_in_cgc_per_genome and num_cazyme_in_cgc_per_genome  (copy and paste all command lines below together)</span>
@@ -15179,7 +15198,7 @@ MGYG000002621,231
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># combine  genomename, num_genes, num_cazyme, num_cgc, num_genes_in_cgc, num_cazyme_in_cgc (copy and paste all command lines below together)</span>
@@ -15203,7 +15222,7 @@ rm num_gene_in_genome_per_genome.csv
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># take a look at the first ten lines of the file</span>
@@ -15250,13 +15269,13 @@ MGYG000000057,3839,212,58,375,141,112,9,3,110,0.0552227,0.0976817
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># extract species name of each genome from previous metadata file</span>
-cut -d, -f1,2 ../UHGG_genomes/Bacteroides_metadata.rep.selected.csv <span class="p">|</span>sed <span class="s1">'1i genome_id,species'</span> &gt; 45_Bacteroides_spp_rep_lineage.csv
+cut -d, -f1,2 ../UHGG_genomes/Bacteroides_metadata.rep.selected.csv <span class="p">|</span>sed <span class="s1">'1i genome_id,species'</span> &gt; 44_Bacteroides_spp_rep_lineage.csv
 <span class="c1"># add species name to each genome</span>
-join -t <span class="s2">","</span> &lt;<span class="o">(</span>sort -t, -k1,1 45_Bacteroides_spp_rep_lineage.csv<span class="o">)</span> &lt;<span class="o">(</span>sort -t, -k1,1 number_count_and_percentage.csv<span class="o">)</span> &gt; spp_number_count_and_percentage.csv
+join -t <span class="s2">","</span> &lt;<span class="o">(</span>sort -t, -k1,1 44_Bacteroides_spp_rep_lineage.csv<span class="o">)</span> &lt;<span class="o">(</span>sort -t, -k1,1 number_count_and_percentage.csv<span class="o">)</span> &gt; spp_number_count_and_percentage.csv
 </pre></div>
 
      </div>
@@ -15269,7 +15288,7 @@ join -t <span class="s2">","</span> &lt;<span class="o">(</span>sort -t, -k1,1 4
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># take a look at the count file with species infor</span>
@@ -15327,7 +15346,7 @@ MGYG000000224,Bacteroides sp003545565,3074,219,57,410,148,134,14,6,108,0.0712427
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[30]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># generate cazyme_family.csv</span>
@@ -15344,7 +15363,7 @@ python3 parse_cazyme_family.py dbcan_out .
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[31]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># take a look at the first ten lines of the file</span>
@@ -15391,11 +15410,11 @@ MGYG000001337,MGYG000001337_00269,GH159,GH
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[32]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># add species name infor</span>
-join -t <span class="s2">","</span> &lt;<span class="o">(</span>sort -t, -k1,1 45_Bacteroides_spp_rep_lineage.csv<span class="o">)</span> &lt;<span class="o">(</span>sort -t, -k1,1 cazyme_family.csv<span class="o">)</span> &gt; spp_cazyme_family.csv
+join -t <span class="s2">","</span> &lt;<span class="o">(</span>sort -t, -k1,1 44_Bacteroides_spp_rep_lineage.csv<span class="o">)</span> &lt;<span class="o">(</span>sort -t, -k1,1 cazyme_family.csv<span class="o">)</span> &gt; spp_cazyme_family.csv
 </pre></div>
 
      </div>
@@ -15408,7 +15427,7 @@ join -t <span class="s2">","</span> &lt;<span class="o">(</span>sort -t, -k1,1 4
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[33]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># take a look at the CAZyme family in each genome with species name</span>
@@ -15466,7 +15485,7 @@ MGYG000000013,Bacteroides sp902362375,MGYG000000013_00072,CBM57,CBM
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[34]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># check working directory   /work/yourgroup/yourusername/FDST867_lab_fall_2022/cazyme_cgc</span>

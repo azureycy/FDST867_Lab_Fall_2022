@@ -7,6 +7,6 @@ fi
 while read lines; do
   #echo "$lines"
   IFS=',' read -r -a line <<< "$lines"
-  protein_count=`less "../45_origin_faa_gff/${line[0]}.gff" | grep -v '^#' | awk '$3=="CDS"'  | wc -l`
+  protein_count=`less "../44_origin_faa_gff/${line[0]}.gff" | grep -v '^#' | awk '$3=="CDS"'  | wc -l`
   echo "$lines","$protein_count" >> $1.cds_count
 done < $1
