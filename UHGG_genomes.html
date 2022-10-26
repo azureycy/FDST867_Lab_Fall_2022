@@ -14680,16 +14680,64 @@ wget http://ftp.ebi.ac.uk/pub/databases/metagenomics/mgnify_genomes/human-gut/v2
 </div>
 </div>
 
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[3]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># genus with the number of named representative spp</span>
+cut -f <span class="m">14</span>,15 genomes-all_metadata.tsv <span class="p">|</span>sed <span class="s1">'1d'</span><span class="p">|</span>sort -u<span class="p">|</span>grep -v <span class="s2">"s__</span>$<span class="s2">"</span> <span class="p">|</span>cut -d<span class="s2">";"</span> -f2,3,4,5,6<span class="p">|</span>sort <span class="p">|</span>uniq -c<span class="p">|</span>sort -k <span class="m">1</span>,1nr <span class="p">|</span>sed <span class="s1">'s/^ *//g'</span><span class="p">|</span> sed <span class="s1">'1i num_rep_spp lineage'</span> <span class="p">|</span>head
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>num_rep_spp lineage
+358 p__Actinobacteriota;c__Coriobacteriia;o__Coriobacteriales;f__Coriobacteriaceae;g__Collinsella
+98 p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Bacteroidaceae;g__Prevotella
+46 p__Firmicutes;c__Bacilli;o__Lactobacillales;f__Streptococcaceae;g__Streptococcus
+44 p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Bacteroidaceae;g__Bacteroides
+38 p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Rikenellaceae;g__Alistipes
+34 p__Bacteroidota;c__Bacteroidia;o__Bacteroidales;f__Bacteroidaceae;g__Phocaeicola
+32 p__Firmicutes_A;c__Clostridia;o__Lachnospirales;f__Lachnospiraceae;g__Blautia_A
+28 p__Firmicutes_A;c__Clostridia;o__Oscillospirales;f__Oscillospiraceae;g__CAG-110
+26 p__Firmicutes_A;c__Clostridia;o__Oscillospirales;f__Acutalibacteraceae;g__Eubacterium_R
+sed: couldn&#39;t write 78 items to stdout: Broken pipe
+</pre>
+</div>
+</div>
+
+</div>
+
+</div>
+
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Select all genomes from Bacteroides genus.</span>
-less genomes-all_metadata.tsv <span class="p">|</span> grep <span class="s2">"s__Bacteroides"</span> &gt; Bacteroides_metadata.tsv
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Select all genomes from Bacteroides genus.  [Reminder: Do NOT miss the space after the genus name when grep]</span>
+grep <span class="s2">"s__Bacteroides "</span> genomes-all_metadata.tsv &gt; Bacteroides_metadata.tsv
 </pre></div>
 
      </div>
@@ -14702,7 +14750,7 @@ less genomes-all_metadata.tsv <span class="p">|</span> grep <span class="s2">"s_
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Covert dos to unix format.</span>
@@ -14740,11 +14788,11 @@ dos2unix Bacteroides_metadata.tsv
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Select representative genome ids. The 14th column is representative genome id of the spp.</span>
-less genomes-all_metadata.tsv <span class="p">|</span> grep <span class="s2">"s__Bacteroides"</span> <span class="p">|</span> cut -f <span class="m">14</span> <span class="p">|</span> sort <span class="p">|</span> uniq &gt; spe_list.txt
+grep <span class="s2">"s__Bacteroides "</span> genomes-all_metadata.tsv <span class="p">|</span> cut -f <span class="m">14</span> <span class="p">|</span> sort <span class="p">|</span> uniq &gt; spe_list.txt
 </pre></div>
 
      </div>
@@ -14757,7 +14805,7 @@ less genomes-all_metadata.tsv <span class="p">|</span> grep <span class="s2">"s_
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Extract metadata infor of the selected representative genomes based on the id list.</span>
@@ -14774,7 +14822,7 @@ python extract_info.py Bacteroides_metadata.tsv spe_list.txt
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># View the first two lines of selected representative genome metadata</span>
@@ -14813,7 +14861,7 @@ MGYG000000029	Isolate	4415875	50	139654	42.18	93.87	0	94.96	99.67	99.56	20	GUT_G
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># View the first five lines of selected metadata info for representative genomes</span>
@@ -14857,7 +14905,7 @@ MGYG000000098,Bacteroides bouchesdurhonensis,Isolate,4868436,125364,99.26,Canada
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="2.-Download-45-Bacteroides-genomes">2. Download 45 Bacteroides genomes<a class="anchor-link" href="#2.-Download-45-Bacteroides-genomes">&#182;</a></h2>
+<h2 id="2.-Download-44-Bacteroides-representative-genomes">2. Download 44 Bacteroides representative genomes<a class="anchor-link" href="#2.-Download-44-Bacteroides-representative-genomes">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -14866,7 +14914,7 @@ MGYG000000098,Bacteroides bouchesdurhonensis,Isolate,4868436,125364,99.26,Canada
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Generate download_faa.txt and download_gff.txt, containing the links for downloading sequence fasta and gff files.</span>
@@ -14883,18 +14931,15 @@ bash download_link_generate.sh spe_list.txt
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Create new directory and download faa and gff files  (This will take ~15 min)</span>
-rm -r ../45_origin_faa_gff
-mkdir -p ../45_origin_faa_gff
+rm -r ../44_origin_faa_gff
+mkdir -p ../44_origin_faa_gff
 bash download.sh download_gff.txt
 bash download.sh download_faa.txt
-mv *gff ../45_origin_faa_gff
-mv *faa ../45_origin_faa_gff
-chmod +x ../45_origin_faa_gff/*gff
-chmod +x ../45_origin_faa_gff/*faa
+chmod +x ../44_origin_faa_gff/*
 </pre></div>
 
      </div>
@@ -14909,7 +14954,7 @@ chmod +x ../45_origin_faa_gff/*faa
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="3.-Statistics-for-45-genomes">3. Statistics for 45 genomes<a class="anchor-link" href="#3.-Statistics-for-45-genomes">&#182;</a></h2>
+<h2 id="3.-Statistics-for-44-genomes">3. Statistics for 44 genomes<a class="anchor-link" href="#3.-Statistics-for-44-genomes">&#182;</a></h2>
 </div>
 </div>
 </div>
@@ -14918,7 +14963,7 @@ chmod +x ../45_origin_faa_gff/*faa
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Count CDS and add the counts to metadata file</span>
@@ -14935,7 +14980,7 @@ bash cds_count.sh Bacteroides_metadata.rep.selected.csv
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># General statistics - example, the number of MAGs/isolates</span>
@@ -14959,7 +15004,7 @@ cat Bacteroides_metadata.rep.tsv <span class="p">|</span> awk <span class="s1">'
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>28
+<pre>27
 </pre>
 </div>
 </div>
@@ -14973,7 +15018,7 @@ cat Bacteroides_metadata.rep.tsv <span class="p">|</span> awk <span class="s1">'
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[18]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span>cat Bacteroides_metadata.rep.tsv <span class="p">|</span> awk <span class="s1">'$2=="MAG"'</span> <span class="p">|</span> wc -l
@@ -15010,10 +15055,10 @@ cat Bacteroides_metadata.rep.tsv <span class="p">|</span> awk <span class="s1">'
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[24]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[19]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Calculate the average genome length of all selected 45 rep genomes</span>
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># Calculate the average genome length of all selected 44 rep genomes</span>
 cat Bacteroides_metadata.rep.tsv <span class="p">|</span> awk <span class="s1">'{ total += $3; count++ } END { print total/count }'</span>
 </pre></div>
 
@@ -15034,7 +15079,7 @@ cat Bacteroides_metadata.rep.tsv <span class="p">|</span> awk <span class="s1">'
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>4.87703e+06
+<pre>4.91911e+06
 </pre>
 </div>
 </div>
@@ -15048,7 +15093,7 @@ cat Bacteroides_metadata.rep.tsv <span class="p">|</span> awk <span class="s1">'
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[20]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Look at the highest ten completeness</span>
@@ -15142,7 +15187,7 @@ cat Bacteroides_metadata.rep.selected.csv <span class="p">|</span> cut -d <span 
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[27]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[21]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Look at the top ten CDS counts</span>
@@ -15200,7 +15245,7 @@ cat Bacteroides_metadata.rep.selected.csv.cds_count <span class="p">|</span> cut
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[29]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[22]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># Create a new folder for saving R plot </span>
