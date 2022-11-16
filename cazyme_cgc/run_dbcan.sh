@@ -1,12 +1,12 @@
 #!/bin/sh
 #SBATCH --time=7-00:00:00
-#SBATCH --mem=10gb
+#SBATCH --mem=50gb
 #SBATCH --job-name=dbcan
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=10
 #SBATCH --error=/work/yourgroup/yourusername/job.%J.err
 #SBATCH --output=/work/yourgroup/yourusername/job.%J.out
-#SBATCH --partition=batch
+#SBATCH --partition=batch,tmp_anvil,guest
 
 # module load anaconda and activate run_dbcan
 
