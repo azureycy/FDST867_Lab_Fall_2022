@@ -14854,6 +14854,40 @@ done
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># remove previous dbcan out folder if you have generated before</span>
+<span class="k">if</span> <span class="o">[</span> -d dbcan_out <span class="o">]</span><span class="p">;</span> <span class="k">then</span> rm -r dbcan_out<span class="p">;</span> <span class="k">fi</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-bash"><pre><span></span><span class="c1"># UHGG downloaded gff contains nucleotide sequence in fasta format, need to remove the nucleotide sequence </span>
+<span class="k">for</span> s <span class="k">in</span> <span class="sb">`</span>ls ../44_origin_faa_gff/*gff<span class="sb">`</span><span class="p">;</span><span class="k">do</span> sed -i <span class="s1">'/##FASTA/,$d'</span> ../44_origin_faa_gff/<span class="nv">$s</span><span class="p">;</span><span class="k">done</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># submit slurm job to HCC  (~45 min)</span>
 sbatch run_dbcan.sh
 </pre></div>
