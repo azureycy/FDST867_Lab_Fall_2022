@@ -14789,7 +14789,7 @@ ll db
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-bash"><pre><span></span><span class="c1"># take a look at scirpt for running dbcan </span>
@@ -14815,13 +14815,13 @@ cat run_dbcan.sh
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>#!/bin/sh
 #SBATCH --time=7-00:00:00
-#SBATCH --mem=10gb
+#SBATCH --mem=50gb
 #SBATCH --job-name=dbcan
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=10
 #SBATCH --error=/work/yourgroup/yourusername/job.%J.err
 #SBATCH --output=/work/yourgroup/yourusername/job.%J.out
-#SBATCH --partition=batch
+#SBATCH --partition=batch,tmp_anvil,guest
 
 # module load anaconda and activate run_dbcan
 
